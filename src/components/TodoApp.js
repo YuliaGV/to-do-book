@@ -21,7 +21,6 @@ const TodoApp = () => {
 
     const [todos, dispatch] = useReducer(TodoReducer, [], init);
 
-
     //Delete 
 
     const handleDelete = (todoId) => {
@@ -59,6 +58,19 @@ const TodoApp = () => {
     
     }
 
+    //Editar ToDo
+    const handleEdit = (todoId, newDescription) => {
+
+        const action = {
+            type: 'edit',
+            payload: {
+                id: todoId,
+                description: newDescription
+            }
+        }
+        dispatch(action);
+
+    }
 
     const handleClearAll = () => {
 
@@ -102,6 +114,7 @@ const TodoApp = () => {
 
                     <TodoAdd 
                         handleAddTodo={handleAddTodo}  
+
                     />
             
                 </div>
@@ -109,31 +122,38 @@ const TodoApp = () => {
                 <div className="col-md-6">
                     <TodoList 
                         todos={todos}
+                        handleEdit={handleEdit}
                         handleDelete={handleDelete}
                         handleToggle={handleToggle}
                     />
 
-                    <div className="row mt-2">
-                        <div className="col-md-6">
-                            <button 
-                            className="btn optionBtn"
-                            onClick={handleClearCompleted}
-                            >
-                            Borrar completados
-                            </button> 
-                        </div> 
-                        <div className="col-md-6">
-                            <button 
-                            className="btn optionBtn"
-                            onClick={handleClearAll}
-                            >
-                            Borrar la lista
-                            </button>
+                    {todos.length === 0 ? (
+                        <div className="alert alert-info">
+                            <p>No hay nada pendiente, ¿agregamos algo?</p>
                         </div>
-                    </div>
-  
+                    ) : (
+                        <div className="row mt-2">
+                                <div className="col-md-6">
+                                    <button 
+                                    className="btn optionBtn"
+                                    onClick={handleClearCompleted}
+                                    >
+                                    Borrar completados
+                                    </button> 
+                                </div> 
+                                <div className="col-md-6">
+                                    <button 
+                                    className="btn optionBtn"
+                                    onClick={handleClearAll}
+                                    >
+                                    Borrar la lista
+                                    </button>
+                                </div>
+                        </div>
+
+                    )}
+                
                 </div>
-                      
 
             </div>
             
